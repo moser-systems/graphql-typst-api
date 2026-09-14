@@ -20,13 +20,13 @@ from gql.transport.local_schema import LocalSchemaTransport
 from graphql import GraphQLResolveInfo, GraphQLSchema, build_schema
 from httpx import ASGITransport, AsyncClient
 
-from graphql_typst.app import create_app
-from graphql_typst.bundle import Bundle, load_bundle
-from graphql_typst.graphql_client import GraphQLGateway
-from graphql_typst.metrics import NullMetrics
-from graphql_typst.renderer import TypstRenderer
-from graphql_typst.service import RenderService
-from graphql_typst.settings import Settings
+from graphql_typst_api.app import create_app
+from graphql_typst_api.bundle import Bundle, load_bundle
+from graphql_typst_api.graphql_client import GraphQLGateway
+from graphql_typst_api.metrics import NullMetrics
+from graphql_typst_api.renderer import TypstRenderer
+from graphql_typst_api.service import RenderService
+from graphql_typst_api.settings import Settings
 
 FIXTURES = Path(__file__).parent / "fixtures"
 BUNDLE_DIR = FIXTURES / "bundle"

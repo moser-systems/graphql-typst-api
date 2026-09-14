@@ -9,7 +9,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Protocol
 
 if TYPE_CHECKING:
-    from graphql_typst.settings import Settings
+    from graphql_typst_api.settings import Settings
 
 
 class Metrics(Protocol):
@@ -45,13 +45,13 @@ class PrometheusMetrics:
 
         self._registry = CollectorRegistry()
         self._renders = Histogram(
-            "graphql_typst_render_duration_seconds",
+            "graphql_typst_api_render_duration_seconds",
             "End-to-end render duration",
             labelnames=("template", "status"),
             registry=self._registry,
         )
         self._upstream = Counter(
-            "graphql_typst_upstream_requests_total",
+            "graphql_typst_api_upstream_requests_total",
             "GraphQL requests by outcome",
             labelnames=("status",),
             registry=self._registry,
@@ -78,6 +78,6 @@ def build_metrics(settings: Settings) -> Metrics:
         import logging  # noqa: PLC0415
 
         logging.getLogger(__name__).warning(
-            "metrics.disabled", extra={"reason": "install graphql-typst[metrics]"}
+            "metrics.disabled", extra={"reason": "install graphql-typst-api[metrics]"}
         )
         return NullMetrics()

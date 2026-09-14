@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from graphql_typst.merge import deep_merge, prune_none
+from graphql_typst_api.merge import deep_merge, prune_none
 
 
 def test_dicts_merge_recursively():

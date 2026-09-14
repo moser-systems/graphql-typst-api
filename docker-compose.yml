@@ -1,14 +1,14 @@
 services:
   api:
     build: .
-    image: graphql-typst:dev
+    image: graphql-typst-api:dev
     ports:
       - "8000:8000"
     environment:
       # Point this at your GraphQL endpoint. Everything else has a usable default.
-      GRAPHQL_TYPST_GRAPHQL_URL: ${GRAPHQL_TYPST_GRAPHQL_URL:-http://host.docker.internal:8080/graphql}
-      GRAPHQL_TYPST_BUNDLE_DIR: /srv/bundle
-      GRAPHQL_TYPST_LOG_FORMAT: console
+      GRAPHQL_TYPST_API_GRAPHQL_URL: ${GRAPHQL_TYPST_API_GRAPHQL_URL:-http://host.docker.internal:8080/graphql}
+      GRAPHQL_TYPST_API_BUNDLE_DIR: /srv/bundle
+      GRAPHQL_TYPST_API_LOG_FORMAT: console
     env_file:
       - path: .env
         required: false

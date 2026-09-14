@@ -2,7 +2,7 @@
 #import "@preview/payqr-swiss:0.4.1": swiss-qr-bill
 #import "@preview/datify:1.0.1": custom-date-format
 
-// Everything below reads from a single JSON document that graphql-typst assembles
+// Everything below reads from a single JSON document that graphql-typst-api assembles
 // from the bundle defaults and the transformed GraphQL response.
 #let data = json(bytes(sys.inputs.data))
 

@@ -12,8 +12,8 @@ import anyio
 import pytest
 from pypdf import PdfReader
 
-from graphql_typst.errors import RenderBusyError, RenderFailedError
-from graphql_typst.renderer import CompilerPool, TypstRenderer
+from graphql_typst_api.errors import RenderBusyError, RenderFailedError
+from graphql_typst_api.renderer import CompilerPool, TypstRenderer
 
 DATA = {"title": "Rendered title", "greeting": "Rendered greeting", "publisher": "Example AG"}
 

@@ -1,8 +1,8 @@
-# Example bundle for graphql-typst.
+# Example bundle for graphql-typst-api.
 #
 # This is a demonstration, not a supported template set: the company, address,
 # logo and IBAN are placeholders. Mount your own bundle read-only at /srv/bundle
-# and point GRAPHQL_TYPST_BUNDLE_DIR at it.
+# and point GRAPHQL_TYPST_API_BUNDLE_DIR at it.
 version: 1
 
 # Merged underneath every template's data.

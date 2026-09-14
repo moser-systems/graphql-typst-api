@@ -1,5 +1,5 @@
 BUNDLE ?= examples/bundle
-IMAGE  ?= graphql-typst:dev
+IMAGE  ?= graphql-typst-api:dev
 
 .PHONY: help install lock upgrade lint fmt typecheck test test-all cov check \
         bundle-check run warm docker-build docker-run clean
@@ -32,25 +32,25 @@ test:  ## Run the offline test suite
 	uv run pytest
 
 test-all:  ## Also run tests that download @preview packages
-	GRAPHQL_TYPST_TEST_NETWORK=1 uv run pytest
+	GRAPHQL_TYPST_API_TEST_NETWORK=1 uv run pytest
 
 bundle-check:  ## Validate the example bundle
-	uv run graphql-typst check --bundle-dir $(BUNDLE)
+	uv run graphql-typst-api check --bundle-dir $(BUNDLE)
 
 check: lint typecheck test bundle-check  ## Everything CI runs
 
 run:  ## Serve the example bundle locally
-	GRAPHQL_TYPST_BUNDLE_DIR=$(BUNDLE) uv run graphql-typst serve --reload
+	GRAPHQL_TYPST_API_BUNDLE_DIR=$(BUNDLE) uv run graphql-typst-api serve --reload
 
 warm:  ## Populate the Typst @preview package cache
-	GRAPHQL_TYPST_BUNDLE_DIR=$(BUNDLE) uv run graphql-typst warm-cache
+	GRAPHQL_TYPST_API_BUNDLE_DIR=$(BUNDLE) uv run graphql-typst-api warm-cache
 
 docker-build:  ## Build the container image
 	docker build -t $(IMAGE) .
 
 docker-run:  ## Run the container image
 	docker run --rm -p 8000:8000 \
-	  -e GRAPHQL_TYPST_GRAPHQL_URL=$(GRAPHQL_TYPST_GRAPHQL_URL) $(IMAGE)
+	  -e GRAPHQL_TYPST_API_GRAPHQL_URL=$(GRAPHQL_TYPST_API_GRAPHQL_URL) $(IMAGE)
 
 clean:  ## Remove caches and build output
 	rm -rf dist build .pytest_cache .mypy_cache .ruff_cache htmlcov coverage.xml .coverage

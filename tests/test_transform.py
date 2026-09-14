@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import pytest
 
-from graphql_typst.errors import EmptyResultError
-from graphql_typst.transform import apply_transform, build_document_data
+from graphql_typst_api.errors import EmptyResultError
+from graphql_typst_api.transform import apply_transform, build_document_data
 
 FULL = {
     "greetingById": {

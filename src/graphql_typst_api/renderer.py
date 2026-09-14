@@ -28,9 +28,9 @@ import anyio
 import anyio.to_thread
 import typst
 
-from graphql_typst.bundle import Bundle, LoadedTemplate
-from graphql_typst.errors import RenderBusyError, RenderFailedError
-from graphql_typst.settings import Settings
+from graphql_typst_api.bundle import Bundle, LoadedTemplate
+from graphql_typst_api.errors import RenderBusyError, RenderFailedError
+from graphql_typst_api.settings import Settings
 
 _log = logging.getLogger(__name__)
 

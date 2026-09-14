@@ -4,9 +4,9 @@ from pathlib import Path
 
 import pytest
 
-from graphql_typst import __version__
-from graphql_typst.cli import main
-from graphql_typst.service import sanitise_filename
+from graphql_typst_api import __version__
+from graphql_typst_api.cli import main
+from graphql_typst_api.service import sanitise_filename
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -31,8 +31,8 @@ def test_check_rejects_a_broken_bundle_and_lists_every_problem(capsys):
 
 
 def test_render_writes_a_pdf(tmp_path, monkeypatch, settings):
-    monkeypatch.setenv("GRAPHQL_TYPST_BUNDLE_DIR", str(FIXTURES / "bundle"))
-    monkeypatch.setenv("GRAPHQL_TYPST_GRAPHQL_URL", str(settings.graphql_url))
+    monkeypatch.setenv("GRAPHQL_TYPST_API_BUNDLE_DIR", str(FIXTURES / "bundle"))
+    monkeypatch.setenv("GRAPHQL_TYPST_API_GRAPHQL_URL", str(settings.graphql_url))
     out = tmp_path / "out.pdf"
     # No server is running, so this exercises the CLI's upstream error path.
     assert main(["render", "hello", "--arg", "id=10", "-o", str(out)]) == 1
@@ -40,17 +40,17 @@ def test_render_writes_a_pdf(tmp_path, monkeypatch, settings):
 
 
 def test_arg_pairs_must_be_key_value(monkeypatch, settings):
-    monkeypatch.setenv("GRAPHQL_TYPST_BUNDLE_DIR", str(FIXTURES / "bundle"))
-    monkeypatch.setenv("GRAPHQL_TYPST_GRAPHQL_URL", str(settings.graphql_url))
+    monkeypatch.setenv("GRAPHQL_TYPST_API_BUNDLE_DIR", str(FIXTURES / "bundle"))
+    monkeypatch.setenv("GRAPHQL_TYPST_API_GRAPHQL_URL", str(settings.graphql_url))
     with pytest.raises(SystemExit, match="key=value"):
         main(["render", "hello", "--arg", "id"])
 
 
 def test_warm_cache_reports_progress(capsys, monkeypatch, settings, tmp_path):
-    monkeypatch.setenv("GRAPHQL_TYPST_BUNDLE_DIR", str(FIXTURES / "bundle"))
-    monkeypatch.setenv("GRAPHQL_TYPST_GRAPHQL_URL", str(settings.graphql_url))
-    monkeypatch.setenv("GRAPHQL_TYPST_IGNORE_SYSTEM_FONTS", "true")
-    monkeypatch.setenv("GRAPHQL_TYPST_TYPST_PACKAGE_CACHE_PATH", str(tmp_path / "pkgs"))
+    monkeypatch.setenv("GRAPHQL_TYPST_API_BUNDLE_DIR", str(FIXTURES / "bundle"))
+    monkeypatch.setenv("GRAPHQL_TYPST_API_GRAPHQL_URL", str(settings.graphql_url))
+    monkeypatch.setenv("GRAPHQL_TYPST_API_IGNORE_SYSTEM_FONTS", "true")
+    monkeypatch.setenv("GRAPHQL_TYPST_API_TYPST_PACKAGE_CACHE_PATH", str(tmp_path / "pkgs"))
     assert main(["warm-cache"]) == 0
     assert "warmed 2 template(s)" in capsys.readouterr().out
 
@@ -72,15 +72,24 @@ def test_sanitise_filename(candidate: str, expected: str):
 
 def test_offline_commands_do_not_need_an_upstream_url(monkeypatch, capsys, tmp_path):
     # A container build runs `warm-cache` with no GraphQL endpoint configured.
-    monkeypatch.delenv("GRAPHQL_TYPST_GRAPHQL_URL", raising=False)
-    monkeypatch.setenv("GRAPHQL_TYPST_IGNORE_SYSTEM_FONTS", "true")
-    monkeypatch.setenv("GRAPHQL_TYPST_TYPST_PACKAGE_CACHE_PATH", str(tmp_path / "pkgs"))
+    monkeypatch.delenv("GRAPHQL_TYPST_API_GRAPHQL_URL", raising=False)
+    monkeypatch.setenv("GRAPHQL_TYPST_API_IGNORE_SYSTEM_FONTS", "true")
+    monkeypatch.setenv("GRAPHQL_TYPST_API_TYPST_PACKAGE_CACHE_PATH", str(tmp_path / "pkgs"))
     assert main(["check", "--bundle-dir", str(FIXTURES / "bundle")]) == 0
     assert main(["warm-cache", "--bundle-dir", str(FIXTURES / "bundle")]) == 0
     assert "warmed 2 template(s)" in capsys.readouterr().out
 
 
 def test_serve_reports_a_missing_upstream_url(monkeypatch):
-    monkeypatch.delenv("GRAPHQL_TYPST_GRAPHQL_URL", raising=False)
-    monkeypatch.setenv("GRAPHQL_TYPST_BUNDLE_DIR", str(FIXTURES / "bundle"))
+    monkeypatch.delenv("GRAPHQL_TYPST_API_GRAPHQL_URL", raising=False)
+    monkeypatch.setenv("GRAPHQL_TYPST_API_BUNDLE_DIR", str(FIXTURES / "bundle"))
     assert main(["serve"]) == 1
+
+
+def test_missing_required_setting_is_reported_not_raised(monkeypatch, capsys):
+    monkeypatch.delenv("GRAPHQL_TYPST_API_BUNDLE_DIR", raising=False)
+    monkeypatch.chdir("/")  # so a stray .env cannot supply it
+    assert main(["check"]) == 1
+    err = capsys.readouterr().err
+    assert "invalid configuration:" in err
+    assert "GRAPHQL_TYPST_API_BUNDLE_DIR" in err

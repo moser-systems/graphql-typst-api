@@ -556,7 +556,7 @@ wheels = [
 ]
 
 [[package]]
-name = "graphql-typst"
+name = "graphql-typst-api"
 source = { editable = "." }
 dependencies = [
     { name = "anyio" },

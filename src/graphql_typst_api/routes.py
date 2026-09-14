@@ -9,10 +9,10 @@ from urllib.parse import quote
 from fastapi import APIRouter, Depends, Path, Query, Request, Response
 from fastapi.responses import JSONResponse, PlainTextResponse
 
-from graphql_typst import __version__
-from graphql_typst.deps import ServiceDep, SettingsDep, require_api_key
-from graphql_typst.errors import InvalidArgumentsError
-from graphql_typst.models import (
+from graphql_typst_api import __version__
+from graphql_typst_api.deps import ServiceDep, SettingsDep, require_api_key
+from graphql_typst_api.errors import InvalidArgumentsError
+from graphql_typst_api.models import (
     ArgInfo,
     ErrorResponse,
     HealthResponse,

@@ -32,7 +32,7 @@ class ConfigurationError(GraphQLTypstError):
 class BundleConfigError(GraphQLTypstError):
     """The template bundle is invalid.
 
-    Raised only at startup (or from ``graphql-typst check``); never in a request path,
+    Raised only at startup (or from ``graphql-typst-api check``); never in a request path,
     because a bundle is validated once and then held immutable.
     """
 

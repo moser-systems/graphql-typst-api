@@ -68,9 +68,9 @@ jobs:
         with:
           enable-cache: true
       - run: uv sync --all-extras
-      - run: uv run graphql-typst check --bundle-dir examples/bundle
+      - run: uv run graphql-typst-api check --bundle-dir examples/bundle
       # Downloads the @preview packages, so it is kept out of the matrix job.
-      - run: GRAPHQL_TYPST_TEST_NETWORK=1 uv run pytest tests/test_examples.py --no-cov
+      - run: GRAPHQL_TYPST_API_TEST_NETWORK=1 uv run pytest tests/test_examples.py --no-cov
 
   lock-check:
     runs-on: ubuntu-latest
@@ -88,24 +88,24 @@ jobs:
         with:
           context: .
           load: true
-          tags: graphql-typst:ci
+          tags: graphql-typst-api:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: The image ships the fonts and packages it needs
         run: |
-          docker run --rm --entrypoint fc-match graphql-typst:ci "Liberation Sans"
-          docker run --rm --entrypoint ls graphql-typst:ci \
-            /opt/graphql-typst/typst-packages/preview
+          docker run --rm --entrypoint fc-match graphql-typst-api:ci "Liberation Sans"
+          docker run --rm --entrypoint ls graphql-typst-api:ci \
+            /opt/graphql-typst-api/typst-packages/preview
       - name: The bundle validates with no network at all
         run: |
           docker run --rm --network none \
-            -e GRAPHQL_TYPST_GRAPHQL_URL=http://upstream.invalid/graphql \
-            graphql-typst:ci check
+            -e GRAPHQL_TYPST_API_GRAPHQL_URL=http://upstream.invalid/graphql \
+            graphql-typst-api:ci check
       - name: The service starts and answers its probes
         run: |
           docker run -d --name api -p 8000:8000 \
-            -e GRAPHQL_TYPST_GRAPHQL_URL=http://upstream.invalid/graphql \
-            graphql-typst:ci
+            -e GRAPHQL_TYPST_API_GRAPHQL_URL=http://upstream.invalid/graphql \
+            graphql-typst-api:ci
           for _ in $(seq 1 30); do
             curl -fsS http://127.0.0.1:8000/healthz && break
             sleep 1

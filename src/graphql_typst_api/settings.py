@@ -1,4 +1,4 @@
-"""Runtime configuration, read from the environment with the ``GRAPHQL_TYPST_`` prefix."""
+"""Runtime configuration, read from the environment with the ``GRAPHQL_TYPST_API_`` prefix."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from typing import Literal
 from pydantic import DirectoryPath, Field, HttpUrl, SecretStr, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from graphql_typst.errors import ConfigurationError
+from graphql_typst_api.errors import ConfigurationError
 
 # The set typst accepts; declaring it here means a typo fails at startup rather
 # than at the first render.
@@ -44,7 +44,7 @@ class Settings(BaseSettings):
     """All knobs, with defaults that are safe for a single-replica deployment."""
 
     model_config = SettingsConfigDict(
-        env_prefix="GRAPHQL_TYPST_",
+        env_prefix="GRAPHQL_TYPST_API_",
         env_file=".env",
         env_file_encoding="utf-8",
         extra="ignore",
@@ -113,7 +113,7 @@ class Settings(BaseSettings):
     def require_graphql_url(self) -> str:
         if self.graphql_url is None:
             raise ConfigurationError(
-                "GRAPHQL_TYPST_GRAPHQL_URL is required to query a GraphQL endpoint"
+                "GRAPHQL_TYPST_API_GRAPHQL_URL is required to query a GraphQL endpoint"
             )
         return str(self.graphql_url)
 

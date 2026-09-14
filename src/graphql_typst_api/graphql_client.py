@@ -26,17 +26,17 @@ from gql.transport.exceptions import (
     TransportServerError,
 )
 
-from graphql_typst.errors import (
+from graphql_typst_api.errors import (
     UpstreamGraphQLError,
     UpstreamTimeoutError,
     UpstreamTransportError,
 )
-from graphql_typst.settings import Settings
+from graphql_typst_api.settings import Settings
 
 if TYPE_CHECKING:
     from gql.client import AsyncClientSession
 
-    from graphql_typst.bundle import LoadedTemplate
+    from graphql_typst_api.bundle import LoadedTemplate
 
 _log = logging.getLogger(__name__)
 

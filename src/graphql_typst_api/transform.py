@@ -5,9 +5,9 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Any
 
-from graphql_typst.bundle import Bundle, LoadedTemplate
-from graphql_typst.errors import EmptyResultError
-from graphql_typst.merge import deep_merge, prune_none
+from graphql_typst_api.bundle import Bundle, LoadedTemplate
+from graphql_typst_api.errors import EmptyResultError
+from graphql_typst_api.merge import deep_merge, prune_none
 
 
 def apply_transform(template: LoadedTemplate, gql_data: Mapping[str, Any]) -> Any:

@@ -3,12 +3,12 @@ from __future__ import annotations
 import pytest
 from gql.transport.exceptions import TransportProtocolError, TransportServerError
 
-from graphql_typst.errors import (
+from graphql_typst_api.errors import (
     UpstreamGraphQLError,
     UpstreamTimeoutError,
     UpstreamTransportError,
 )
-from graphql_typst.graphql_client import GraphQLGateway
+from graphql_typst_api.graphql_client import GraphQLGateway
 
 
 async def test_executes_with_variables(gateway, bundle):

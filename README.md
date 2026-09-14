@@ -1,4 +1,4 @@
-# graphql-typst
+# graphql-typst-api
 
 Render [Typst](https://typst.app) PDFs from GraphQL queries, over HTTP.
 
@@ -28,8 +28,8 @@ POST /v1/render/invoice {"args": {"id": "10"}}
 
 ```console
 $ docker run --rm -p 8000:8000 \
-    -e GRAPHQL_TYPST_GRAPHQL_URL=http://your-api:8080/graphql \
-    ghcr.io/resmo/graphql-typst:latest
+    -e GRAPHQL_TYPST_API_GRAPHQL_URL=http://your-api:8080/graphql \
+    ghcr.io/moser-systems/graphql-typst-api:latest
 
 $ curl -s localhost:8000/v1/templates | jq
 $ curl -s -d '{"args":{"id":"10"}}' -H 'Content-Type: application/json' \
@@ -42,18 +42,18 @@ supported template set. Mount your own:
 
 ```console
 $ docker run --rm -p 8000:8000 \
-    -e GRAPHQL_TYPST_GRAPHQL_URL=http://your-api:8080/graphql \
-    -e GRAPHQL_TYPST_BUNDLE_DIR=/srv/bundle \
+    -e GRAPHQL_TYPST_API_GRAPHQL_URL=http://your-api:8080/graphql \
+    -e GRAPHQL_TYPST_API_BUNDLE_DIR=/srv/bundle \
     -v "$PWD/my-bundle:/srv/bundle:ro" \
-    ghcr.io/resmo/graphql-typst:latest
+    ghcr.io/moser-systems/graphql-typst-api:latest
 ```
 
 Or install from PyPI:
 
 ```console
-$ pip install graphql-typst
-$ graphql-typst check --bundle-dir my-bundle
-$ graphql-typst serve
+$ pip install graphql-typst-api
+$ graphql-typst-api check --bundle-dir my-bundle
+$ graphql-typst-api serve
 ```
 
 The published wheel contains no templates at all — bundles are yours.
@@ -98,7 +98,7 @@ Everything is validated at startup, and **every** problem is reported at once, s
 broken bundle takes one pass to fix rather than one restart per typo:
 
 ```console
-$ graphql-typst check --bundle-dir my-bundle
+$ graphql-typst-api check --bundle-dir my-bundle
 invalid template bundle (2 problem(s)):
   1. template 'invoice'.query: file not found (queries/invoice.graphql)
   2. template 'letter'.args ['ref'] does not match the query's variables ['id']
@@ -137,7 +137,7 @@ The document data arrives as one JSON string in `sys.inputs`:
 Templates may import from [Typst Universe](https://typst.app/universe)
 (`#import "@preview/payqr-swiss:0.4.1": swiss-qr-bill`). Those packages are downloaded
 on first use, so the container image bakes them in at build time with
-`graphql-typst warm-cache` — at runtime it needs no network for rendering.
+`graphql-typst-api warm-cache` — at runtime it needs no network for rendering.
 
 ### Data precedence
 
@@ -201,7 +201,7 @@ request id.
 
 ## Configuration
 
-Environment variables, prefix `GRAPHQL_TYPST_`, also read from `.env`.
+Environment variables, prefix `GRAPHQL_TYPST_API_`, also read from `.env`.
 
 | Setting | Default | Notes |
 | --- | --- | --- |
@@ -238,11 +238,11 @@ Environment variables, prefix `GRAPHQL_TYPST_`, also read from `.env`.
 ## CLI
 
 ```console
-graphql-typst serve [--host] [--port] [--workers] [--reload]
-graphql-typst render <name> [--arg k=v]... [--args-json '{…}'] [-o out.pdf | -]
-graphql-typst check [--bundle-dir DIR]        # exit 1 and list every problem
-graphql-typst warm-cache [--bundle-dir DIR]   # pull @preview packages
-graphql-typst version
+graphql-typst-api serve [--host] [--port] [--workers] [--reload]
+graphql-typst-api render <name> [--arg k=v]... [--args-json '{…}'] [-o out.pdf | -]
+graphql-typst-api check [--bundle-dir DIR]        # exit 1 and list every problem
+graphql-typst-api warm-cache [--bundle-dir DIR]   # pull @preview packages
+graphql-typst-api version
 ```
 
 `render` goes through the same service as the HTTP route, so the CLI never diverges

@@ -6,7 +6,7 @@ defaults. The directory is also the Typst compilation root, so templates refer t
 their siblings with root-absolute paths (``#import "/lib/page.typ"``).
 
 Validation is a pure function of the directory, which is what makes
-``graphql-typst check`` and the malformed-bundle test fixtures cheap. It collects
+``graphql-typst-api check`` and the malformed-bundle test fixtures cheap. It collects
 *all* problems and raises one :class:`BundleConfigError`, so an operator fixes a
 broken bundle in one pass instead of one restart per mistake.
 """
@@ -38,7 +38,7 @@ from jmespath.exceptions import JMESPathError
 from jmespath.parser import ParsedResult
 from pydantic import BaseModel, ConfigDict, Field, StringConstraints, ValidationError
 
-from graphql_typst.errors import BundleConfigError, TemplateNotFoundError
+from graphql_typst_api.errors import BundleConfigError, TemplateNotFoundError
 
 CONFIG_FILENAME = "templates.yaml"
 

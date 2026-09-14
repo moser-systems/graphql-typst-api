@@ -11,14 +11,14 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from graphql_typst.arguments import validate_args
-from graphql_typst.bundle import ArgSpec, Bundle, LoadedTemplate
-from graphql_typst.errors import GraphQLTypstError, UpstreamError
-from graphql_typst.graphql_client import GraphQLGateway
-from graphql_typst.metrics import Metrics
-from graphql_typst.renderer import TypstRenderer
-from graphql_typst.settings import Settings
-from graphql_typst.transform import build_document_data
+from graphql_typst_api.arguments import validate_args
+from graphql_typst_api.bundle import ArgSpec, Bundle, LoadedTemplate
+from graphql_typst_api.errors import GraphQLTypstError, UpstreamError
+from graphql_typst_api.graphql_client import GraphQLGateway
+from graphql_typst_api.metrics import Metrics
+from graphql_typst_api.renderer import TypstRenderer
+from graphql_typst_api.settings import Settings
+from graphql_typst_api.transform import build_document_data
 
 _log = logging.getLogger(__name__)
 

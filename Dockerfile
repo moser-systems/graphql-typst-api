@@ -49,25 +49,25 @@ RUN apt-get update \
  && fc-cache -f
 
 COPY --from=builder /app/.venv /app/.venv
-COPY examples/bundle /opt/graphql-typst/examples/bundle
+COPY examples/bundle /opt/graphql-typst-api/examples/bundle
 
 # The container runs with a read-only root filesystem, so point the caches that
 # libraries expect to write at a writable tmpfs instead of a non-existent home.
 ENV HOME=/tmp \
     XDG_CACHE_HOME=/tmp \
-    GRAPHQL_TYPST_BUNDLE_DIR=/opt/graphql-typst/examples/bundle \
-    GRAPHQL_TYPST_TYPST_PACKAGE_CACHE_PATH=/opt/graphql-typst/typst-packages \
-    GRAPHQL_TYPST_HOST=0.0.0.0 \
-    GRAPHQL_TYPST_PORT=8000 \
-    GRAPHQL_TYPST_LOG_FORMAT=json
+    GRAPHQL_TYPST_API_BUNDLE_DIR=/opt/graphql-typst-api/examples/bundle \
+    GRAPHQL_TYPST_API_TYPST_PACKAGE_CACHE_PATH=/opt/graphql-typst-api/typst-packages \
+    GRAPHQL_TYPST_API_HOST=0.0.0.0 \
+    GRAPHQL_TYPST_API_PORT=8000 \
+    GRAPHQL_TYPST_API_LOG_FORMAT=json
 
 # Bake the @preview packages into the image by compiling every template, which
 # also pulls their transitive dependencies. A hardcoded download list would miss
 # those. Fails the build if a package cannot be fetched, so the runtime never
 # needs network for rendering.
-RUN mkdir -p /opt/graphql-typst/typst-packages \
- && graphql-typst warm-cache \
- && chmod -R a+rX /opt/graphql-typst /app/.venv
+RUN mkdir -p /opt/graphql-typst-api/typst-packages \
+ && graphql-typst-api warm-cache \
+ && chmod -R a+rX /opt/graphql-typst-api /app/.venv
 
 # Numeric UID so the image works unchanged under a restricted PodSecurity policy.
 USER 10001
@@ -77,5 +77,5 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
   CMD curl -fsS http://127.0.0.1:8000/healthz || exit 1
 
-ENTRYPOINT ["graphql-typst"]
+ENTRYPOINT ["graphql-typst-api"]
 CMD ["serve"]

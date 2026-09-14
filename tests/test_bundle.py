@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-from graphql_typst.bundle import load_bundle, strip_jmespath_comments
-from graphql_typst.errors import BundleConfigError, TemplateNotFoundError
+from graphql_typst_api.bundle import load_bundle, strip_jmespath_comments
+from graphql_typst_api.errors import BundleConfigError, TemplateNotFoundError
 
 BAD = Path(__file__).parent / "fixtures" / "bad_bundles"
 

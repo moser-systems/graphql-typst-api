@@ -11,9 +11,9 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
 
-from graphql_typst.log import request_id_var
+from graphql_typst_api.log import request_id_var
 
-_log = logging.getLogger("graphql_typst.access")
+_log = logging.getLogger("graphql_typst_api.access")
 
 Dispatch = Callable[[Request], Awaitable[Response]]
 

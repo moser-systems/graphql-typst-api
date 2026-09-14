@@ -4,9 +4,9 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 from pydantic import SecretStr
 
-from graphql_typst.app import create_app
-from graphql_typst.metrics import NullMetrics, PrometheusMetrics, build_metrics
-from graphql_typst.service import RenderService
+from graphql_typst_api.app import create_app
+from graphql_typst_api.metrics import NullMetrics, PrometheusMetrics, build_metrics
+from graphql_typst_api.service import RenderService
 
 
 @pytest.fixture
@@ -108,7 +108,7 @@ async def test_metrics_endpoint_exposes_prometheus_text(make_client):
         await http.post("/v1/render/hello", json={"args": {"id": "10"}})
         response = await http.get("/metrics")
     assert response.status_code == 200
-    assert "graphql_typst_render_duration_seconds" in response.text
+    assert "graphql_typst_api_render_duration_seconds" in response.text
 
 
 def test_build_metrics_returns_null_when_disabled(settings):

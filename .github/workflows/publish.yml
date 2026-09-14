@@ -23,7 +23,7 @@ jobs:
       - name: The tag must match __version__
         run: |
           version=$(uv run --no-project --with ./dist/*.whl \
-            python -c "import graphql_typst; print(graphql_typst.__version__)")
+            python -c "import graphql_typst_api; print(graphql_typst_api.__version__)")
           echo "packaged version: $version"
           test "refs/tags/v$version" = "${{ github.ref }}" \
             || { echo "tag ${{ github.ref }} does not match version $version"; exit 1; }
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: release
-      url: https://pypi.org/p/graphql-typst
+      url: https://pypi.org/p/graphql-typst-api
     permissions:
       # Trusted Publishing: PyPI verifies this workflow's OIDC token, so there is
       # no long-lived API token to leak. Configure the PyPI publisher with this

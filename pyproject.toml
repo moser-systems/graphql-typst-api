@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "graphql-typst"
+name = "graphql-typst-api"
 dynamic = ["version"]
 description = "Render Typst PDFs from GraphQL queries over HTTP"
 readme = "README.md"
@@ -41,12 +41,12 @@ dependencies = [
 metrics = ["prometheus-client>=0.21"]
 
 [project.scripts]
-graphql-typst = "graphql_typst.cli:main"
+graphql-typst-api = "graphql_typst_api.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/moser-systems/graphql-typst"
-Issues = "https://github.com/moser-systems/graphql-typst/issues"
-Changelog = "https://github.com/moser-systems/graphql-typst/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/moser-systems/graphql-typst-api"
+Issues = "https://github.com/moser-systems/graphql-typst-api/issues"
+Changelog = "https://github.com/moser-systems/graphql-typst-api/blob/main/CHANGELOG.md"
 
 [dependency-groups]
 dev = [
@@ -61,10 +61,10 @@ dev = [
 ]
 
 [tool.hatch.version]
-path = "src/graphql_typst/__init__.py"
+path = "src/graphql_typst_api/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/graphql_typst"]
+packages = ["src/graphql_typst_api"]
 
 [tool.hatch.build.targets.sdist]
 include = [
@@ -97,10 +97,10 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["S101", "ANN", "PLR2004", "ARG", "SLF001"]
-"src/graphql_typst/cli.py" = ["T201"]
+"src/graphql_typst_api/cli.py" = ["T201"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["graphql_typst"]
+known-first-party = ["graphql_typst_api"]
 
 [tool.ruff.format]
 docstring-code-format = true
@@ -127,7 +127,7 @@ disallow_incomplete_defs = false
 minversion = "8.0"
 testpaths = ["tests"]
 asyncio_mode = "auto"
-addopts = "-q --strict-markers --strict-config --cov=graphql_typst --cov-report=term-missing --cov-report=xml --cov-fail-under=85"
+addopts = "-q --strict-markers --strict-config --cov=graphql_typst_api --cov-report=term-missing --cov-report=xml --cov-fail-under=85"
 markers = ["slow: runs a real typst compile"]
 filterwarnings = [
   "error",
@@ -137,7 +137,7 @@ filterwarnings = [
 
 [tool.coverage.run]
 branch = true
-source = ["src/graphql_typst"]
+source = ["src/graphql_typst_api"]
 
 [tool.coverage.report]
 exclude_also = [

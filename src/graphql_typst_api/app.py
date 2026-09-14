@@ -12,18 +12,18 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from graphql_typst import __version__
-from graphql_typst.bundle import load_bundle
-from graphql_typst.errors import GraphQLTypstError, RenderFailedError
-from graphql_typst.graphql_client import GraphQLGateway
-from graphql_typst.log import configure_logging, request_id_var
-from graphql_typst.metrics import build_metrics
-from graphql_typst.middleware import AccessLogMiddleware, RequestIdMiddleware
-from graphql_typst.models import ErrorDetail, ErrorResponse
-from graphql_typst.renderer import TypstRenderer
-from graphql_typst.routes import meta_router, v1_router
-from graphql_typst.service import RenderService
-from graphql_typst.settings import Settings
+from graphql_typst_api import __version__
+from graphql_typst_api.bundle import load_bundle
+from graphql_typst_api.errors import GraphQLTypstError, RenderFailedError
+from graphql_typst_api.graphql_client import GraphQLGateway
+from graphql_typst_api.log import configure_logging, request_id_var
+from graphql_typst_api.metrics import build_metrics
+from graphql_typst_api.middleware import AccessLogMiddleware, RequestIdMiddleware
+from graphql_typst_api.models import ErrorDetail, ErrorResponse
+from graphql_typst_api.renderer import TypstRenderer
+from graphql_typst_api.routes import meta_router, v1_router
+from graphql_typst_api.service import RenderService
+from graphql_typst_api.settings import Settings
 
 _log = logging.getLogger(__name__)
 
@@ -54,7 +54,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     if settings.api_key is None:
         _log.warning(
             "auth.disabled",
-            extra={"hint": "set GRAPHQL_TYPST_API_KEY to require a key on /v1"},
+            extra={"hint": "set GRAPHQL_TYPST_API_API_KEY to require a key on /v1"},
         )
 
     # Fail fast: a missing URL or an invalid bundle raises out of the lifespan and
@@ -80,7 +80,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
 def create_app(settings: Settings | None = None) -> FastAPI:
     settings = settings or Settings()
     app = FastAPI(
-        title="graphql-typst",
+        title="graphql-typst-api",
         version=__version__,
         summary="Render Typst PDFs from GraphQL queries",
         lifespan=lifespan,

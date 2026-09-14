@@ -16,7 +16,7 @@ from contextvars import ContextVar
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from graphql_typst.settings import Settings
+    from graphql_typst_api.settings import Settings
 
 request_id_var: ContextVar[str] = ContextVar("request_id", default="-")
 

@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import pytest
 
-from graphql_typst.arguments import validate_args
-from graphql_typst.bundle import Bundle
-from graphql_typst.errors import InvalidArgumentsError
+from graphql_typst_api.arguments import validate_args
+from graphql_typst_api.bundle import Bundle
+from graphql_typst_api.errors import InvalidArgumentsError
 
 
 @pytest.fixture

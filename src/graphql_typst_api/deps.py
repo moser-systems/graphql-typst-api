@@ -8,9 +8,9 @@ from typing import Annotated
 from fastapi import Depends, Request, Security
 from fastapi.security import APIKeyHeader
 
-from graphql_typst.errors import UnauthorizedError
-from graphql_typst.service import RenderService
-from graphql_typst.settings import Settings
+from graphql_typst_api.errors import UnauthorizedError
+from graphql_typst_api.service import RenderService
+from graphql_typst_api.settings import Settings
 
 
 def get_settings(request: Request) -> Settings:

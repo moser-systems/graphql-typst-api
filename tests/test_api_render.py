@@ -4,9 +4,9 @@ import pytest
 from gql.transport.exceptions import TransportServerError
 from httpx import ASGITransport, AsyncClient
 
-from graphql_typst.app import create_app
-from graphql_typst.metrics import NullMetrics
-from graphql_typst.service import RenderService
+from graphql_typst_api.app import create_app
+from graphql_typst_api.metrics import NullMetrics
+from graphql_typst_api.service import RenderService
 
 RENDER = "/v1/render/hello"
 

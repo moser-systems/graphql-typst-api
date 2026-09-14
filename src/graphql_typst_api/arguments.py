@@ -10,8 +10,8 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Any
 
-from graphql_typst.bundle import ArgSpec, LoadedTemplate
-from graphql_typst.errors import InvalidArgumentsError
+from graphql_typst_api.bundle import ArgSpec, LoadedTemplate
+from graphql_typst_api.errors import InvalidArgumentsError
 
 _TRUE = frozenset({"true", "1", "yes", "on"})
 _FALSE = frozenset({"false", "0", "no", "off"})

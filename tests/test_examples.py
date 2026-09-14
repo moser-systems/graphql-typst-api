@@ -16,17 +16,17 @@ from pathlib import Path
 import pytest
 from pypdf import PdfReader
 
-from graphql_typst.bundle import load_bundle
-from graphql_typst.renderer import TypstRenderer
-from graphql_typst.settings import Settings
-from graphql_typst.transform import build_document_data
+from graphql_typst_api.bundle import load_bundle
+from graphql_typst_api.renderer import TypstRenderer
+from graphql_typst_api.settings import Settings
+from graphql_typst_api.transform import build_document_data
 
 EXAMPLES = Path(__file__).resolve().parent.parent / "examples" / "bundle"
 RESPONSE = Path(__file__).parent / "fixtures" / "invoice_response.json"
 
 needs_network = pytest.mark.skipif(
-    not os.environ.get("GRAPHQL_TYPST_TEST_NETWORK"),
-    reason="set GRAPHQL_TYPST_TEST_NETWORK=1 to download @preview packages",
+    not os.environ.get("GRAPHQL_TYPST_API_TEST_NETWORK"),
+    reason="set GRAPHQL_TYPST_API_TEST_NETWORK=1 to download @preview packages",
 )
 
 

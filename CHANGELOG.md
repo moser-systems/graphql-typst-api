@@ -22,9 +22,9 @@ Initial release.
 - Three-layer data precedence (global defaults, template defaults, transform output)
   with `null` pruning so an omitted upstream field falls back to its default.
 - Optional static API key on `/v1`; upstream authentication via a configurable header.
-- `graphql-typst` CLI with `serve`, `render`, `check`, `warm-cache` and `version`.
+- `graphql-typst-api` CLI with `serve`, `render`, `check`, `warm-cache` and `version`.
 - Multi-architecture container image (amd64, arm64) with fonts and `@preview` packages
   baked in, so rendering needs no network at runtime.
 
-[Unreleased]: https://github.com/resmo/graphql-typst/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/resmo/graphql-typst/releases/tag/v0.1.0
+[Unreleased]: https://github.com/moser-systems/graphql-typst-api/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/moser-systems/graphql-typst-api/releases/tag/v0.1.0

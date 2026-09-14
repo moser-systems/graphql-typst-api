@@ -17,15 +17,17 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from graphql_typst import __version__
-from graphql_typst.bundle import load_bundle
-from graphql_typst.errors import BundleConfigError, ConfigurationError, GraphQLTypstError
-from graphql_typst.graphql_client import GraphQLGateway
-from graphql_typst.log import configure_logging
-from graphql_typst.metrics import build_metrics
-from graphql_typst.renderer import TypstRenderer
-from graphql_typst.service import RenderService
-from graphql_typst.settings import Settings
+from pydantic import ValidationError
+
+from graphql_typst_api import __version__
+from graphql_typst_api.bundle import load_bundle
+from graphql_typst_api.errors import BundleConfigError, ConfigurationError, GraphQLTypstError
+from graphql_typst_api.graphql_client import GraphQLGateway
+from graphql_typst_api.log import configure_logging
+from graphql_typst_api.metrics import build_metrics
+from graphql_typst_api.renderer import TypstRenderer
+from graphql_typst_api.service import RenderService
+from graphql_typst_api.settings import Settings
 
 
 def _settings(args: argparse.Namespace) -> Settings:
@@ -84,7 +86,7 @@ def cmd_serve(args: argparse.Namespace) -> int:
     settings = _settings(args)
     settings.require_graphql_url()
     uvicorn.run(
-        "graphql_typst.app:create_app",
+        "graphql_typst_api.app:create_app",
         factory=True,
         host=args.host or settings.host,
         port=args.port or settings.port,
@@ -140,14 +142,14 @@ def cmd_render(args: argparse.Namespace) -> int:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="graphql-typst", description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(prog="graphql-typst-api", description=__doc__.splitlines()[0])
     parser.add_argument("--version", action="version", version=__version__)
     sub = parser.add_subparsers(dest="command", required=True)
 
     def with_bundle(p: argparse.ArgumentParser) -> argparse.ArgumentParser:
         p.add_argument(
             "--bundle-dir",
-            help="Template bundle directory (default: GRAPHQL_TYPST_BUNDLE_DIR)",
+            help="Template bundle directory (default: GRAPHQL_TYPST_API_BUNDLE_DIR)",
         )
         return p
 
@@ -179,12 +181,25 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _report_settings_error(exc: ValidationError) -> None:
+    """Turn a pydantic failure into the environment variables the operator must set."""
+    prefix = str(Settings.model_config.get("env_prefix", ""))
+    print("invalid configuration:", file=sys.stderr)
+    for err in exc.errors():
+        field = ".".join(str(part) for part in err["loc"])
+        print(f"  {prefix}{field.upper()}: {err['msg']}", file=sys.stderr)
+
+
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
         result: int = args.func(args)
     except (BundleConfigError, ConfigurationError) as exc:
         print(exc.message, file=sys.stderr)
+        return 1
+    except ValidationError as exc:
+        # A missing required setting is an operator mistake, not a crash.
+        _report_settings_error(exc)
         return 1
     return result
 

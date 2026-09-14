@@ -1,0 +1,21 @@
+type Nested {
+  replaced: String
+}
+
+type Greeting {
+  id: ID!
+  title: String
+  body: String
+  nested: Nested
+}
+
+type Plain {
+  title: String
+  greeting: String
+  publisher: String
+}
+
+type Query {
+  greetingById(id: ID!, loud: Boolean = false): Greeting
+  plain: Plain
+}

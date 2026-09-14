@@ -1,0 +1,28 @@
+# Example bundle for graphql-typst.
+#
+# This is a demonstration, not a supported template set: the company, address,
+# logo and IBAN are placeholders. Mount your own bundle read-only at /srv/bundle
+# and point GRAPHQL_TYPST_BUNDLE_DIR at it.
+version: 1
+
+# Merged underneath every template's data.
+defaults: defaults.yaml
+
+templates:
+  - name: invoice
+    description: Swiss QR invoice with line items
+    template: templates/invoice.typ
+    query: queries/invoice.graphql
+    transform: transforms/invoice.jmespath
+    defaults: defaults/invoice.json
+    args: [id]
+    filename: "rechnung-{id}.pdf"
+
+  - name: letter
+    description: Plain letter on the same letterhead
+    template: templates/letter.typ
+    query: queries/letter.graphql
+    transform: transforms/letter.jmespath
+    defaults: defaults/letter.json
+    args: [id]
+    filename: "brief-{id}.pdf"

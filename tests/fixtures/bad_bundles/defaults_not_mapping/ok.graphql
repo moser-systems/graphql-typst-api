@@ -1,0 +1,1 @@
+query Ok($id: ID!) { greetingById(id: $id) { title } }

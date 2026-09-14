@@ -1,0 +1,5 @@
+{
+  "title": "Fallback title",
+  "greeting": "Fallback greeting",
+  "nested": {"kept": "from defaults", "replaced": "from defaults"}
+}

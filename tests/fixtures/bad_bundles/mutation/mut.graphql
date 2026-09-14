@@ -1,0 +1,1 @@
+mutation Nope($id: ID!) { deleteGreeting(id: $id) { title } }

@@ -1,0 +1,13 @@
+{
+    "title": letterById.subject,
+    "reference": letterById.reference,
+    "body": letterById.body,
+    "recipient": {
+        "name": letterById.person.fullName,
+        "street": letterById.person.addresses[0].streetName,
+        "house_number": letterById.person.addresses[0].houseNumber,
+        "postal_code": letterById.person.addresses[0].postalCode,
+        "city": letterById.person.addresses[0].location,
+        "country": letterById.person.addresses[0].countryCode
+    }
+}

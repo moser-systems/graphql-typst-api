@@ -1,0 +1,8 @@
+# Reshape the GraphQL response into the keys the template reads.
+{
+    "title": greetingById.title,
+    "greeting": greetingById.body,
+    "nested": {
+        "replaced": greetingById.nested.replaced
+    }
+}

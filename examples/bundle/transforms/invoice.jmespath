@@ -1,0 +1,36 @@
+# Reshape the camelCase GraphQL response into the snake_case keys the template
+# reads. Any field the response omits comes back as null here and is pruned before
+# the merge, so the matching value from defaults/invoice.json survives.
+{
+    "title": invoiceById.title,
+    "description": invoiceById.description,
+    "invoice_number": invoiceById.invoiceNumber,
+    "external_reference": invoiceById.externalReference,
+    "invoice_date": invoiceById.invoiceDate,
+    "due_date": invoiceById.dueDate,
+    "net_amount": invoiceById.netAmount,
+    "gross_amount": invoiceById.grossAmount,
+    "vat_amount": invoiceById.vatAmount,
+    "positions": invoiceById.positions,
+    "payment_connection": {
+        "iban": invoiceById.paymentConnection.iban
+    },
+    "recipient": {
+        "name": invoiceById.person.fullName,
+        "street": invoiceById.person.addresses[0].streetName,
+        "house_number": invoiceById.person.addresses[0].houseNumber,
+        "postal_code": invoiceById.person.addresses[0].postalCode,
+        "city": invoiceById.person.addresses[0].location,
+        "country": invoiceById.person.addresses[0].countryCode
+    },
+    "qr": {
+        "debtor_name": invoiceById.person.fullName,
+        "debtor_street": invoiceById.person.addresses[0].streetName,
+        "debtor_building": invoiceById.person.addresses[0].houseNumber,
+        "debtor_postal_code": invoiceById.person.addresses[0].postalCode,
+        "debtor_city": invoiceById.person.addresses[0].location,
+        "debtor_country": invoiceById.person.addresses[0].countryCode,
+        "amount": invoiceById.grossAmount,
+        "additional_info": invoiceById.invoiceNumber
+    }
+}

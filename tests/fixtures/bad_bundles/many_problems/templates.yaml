@@ -1,0 +1,12 @@
+version: 1
+templates:
+  - name: one
+    template: missing-a.typ
+    query: ok.graphql
+  - name: two
+    template: ok.typ
+    query: missing-b.graphql
+  - name: three
+    template: ok.typ
+    query: ok.graphql
+    defaults: missing-c.json

@@ -1,0 +1,17 @@
+version: 1
+defaults: defaults.yaml
+
+templates:
+  - name: hello
+    description: Hermetic fixture template
+    template: templates/hello.typ
+    query: queries/hello.graphql
+    transform: transforms/hello.jmespath
+    defaults: defaults/hello.json
+    args: [id, loud]
+    filename: "hello-{id}.pdf"
+
+  - name: plain
+    description: No transform, no defaults
+    template: templates/hello.typ
+    query: queries/plain.graphql

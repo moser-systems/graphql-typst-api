@@ -1,0 +1,49 @@
+# The POC hardcoded `invoiceById(id: "10")`. Here the id is a GraphQL variable,
+# supplied per request as {"args": {"id": "10"}}.
+query InvoiceById($id: ID!) {
+  invoiceById(id: $id) {
+    id
+    title
+    description
+    externalReference
+    invoiceNumber
+    invoiceDate
+    dueDate
+    netAmount
+    grossAmount
+    vatAmount
+    person {
+      fullName
+      language
+      addresses(filter: { type: { eq: INVOICE } }) {
+        addressAddition
+        countryCode
+        houseNumber
+        location
+        postalCode
+        streetName
+      }
+    }
+    paymentConnection {
+      iban
+      bankAccountHolder {
+        fullName
+      }
+    }
+    positions {
+      positionNumber
+      name
+      quantity
+      unitPrice
+      discount
+      discountAmount
+      discountType
+      netAmount
+      grossAmount
+      vatAmount
+      vatRate {
+        rateInPercentage
+      }
+    }
+  }
+}

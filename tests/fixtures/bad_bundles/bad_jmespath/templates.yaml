@@ -1,0 +1,6 @@
+version: 1
+templates:
+  - name: bad
+    template: ok.typ
+    query: ok.graphql
+    transform: broken.jmespath

@@ -1,0 +1,79 @@
+name: publish
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - run: uv build
+
+      # A PyPI upload cannot be undone, so the tag is checked against the packaged
+      # version before anything is published.
+      - name: The tag must match __version__
+        run: |
+          version=$(uv run --no-project --with ./dist/*.whl \
+            python -c "import graphql_typst; print(graphql_typst.__version__)")
+          echo "packaged version: $version"
+          test "refs/tags/v$version" = "${{ github.ref }}" \
+            || { echo "tag ${{ github.ref }} does not match version $version"; exit 1; }
+
+      - name: The wheel must not carry any templates
+        run: |
+          test "$(unzip -l dist/*.whl | grep -c examples/ || true)" = "0"
+
+      - run: uv run --no-project --with twine twine check dist/*
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: release
+      url: https://pypi.org/p/graphql-typst
+    permissions:
+      # Trusted Publishing: PyPI verifies this workflow's OIDC token, so there is
+      # no long-lived API token to leak. Configure the PyPI publisher with this
+      # workflow file *and* the `release` environment, then add a required
+      # reviewer so a tag push alone cannot ship.
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+
+  github-release:
+    needs: publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: dist/*
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${{ github.ref_name }}" dist/* --generate-notes

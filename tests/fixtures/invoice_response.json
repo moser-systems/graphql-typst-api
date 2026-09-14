@@ -1,0 +1,64 @@
+{
+  "invoiceById": {
+    "id": "10",
+    "title": "Rechnung Q1 2026",
+    "description": "Mietzins und Nebenkosten",
+    "externalReference": "PO-4711",
+    "invoiceNumber": "2026-000123",
+    "invoiceDate": "2026-01-15",
+    "dueDate": "2026-02-14",
+    "netAmount": 1000.0,
+    "grossAmount": 1081.0,
+    "vatAmount": 81.0,
+    "person": {
+      "fullName": "Erika Mustermann",
+      "language": "DE",
+      "addresses": [
+        {
+          "addressAddition": null,
+          "countryCode": "CH",
+          "houseNumber": "12",
+          "location": "Winterthur",
+          "postalCode": "8400",
+          "streetName": "Beispielweg"
+        }
+      ]
+    },
+    "paymentConnection": {
+      "iban": "CH9300762011623852957",
+      "bankAccountHolder": {
+        "fullName": "Example AG"
+      }
+    },
+    "positions": [
+      {
+        "positionNumber": 1,
+        "name": "Mietzins Januar",
+        "quantity": 1,
+        "unitPrice": 800.0,
+        "discount": null,
+        "discountAmount": null,
+        "discountType": null,
+        "netAmount": 800.0,
+        "grossAmount": 864.8,
+        "vatAmount": 64.8,
+        "vatRate": {
+          "rateInPercentage": 8.1
+        }
+      },
+      {
+        "positionNumber": 2,
+        "name": "Nebenkosten Akonto",
+        "quantity": 1,
+        "unitPrice": 200.0,
+        "discount": null,
+        "discountAmount": null,
+        "discountType": null,
+        "netAmount": 200.0,
+        "grossAmount": 216.2,
+        "vatAmount": 16.2,
+        "vatRate": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+version: 1
+templates:
+  - name: bad
+    template: ok.typ
+    query: mut.graphql

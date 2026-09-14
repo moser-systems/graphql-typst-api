@@ -1,0 +1,17 @@
+query LetterById($id: ID!) {
+  letterById(id: $id) {
+    subject
+    reference
+    body
+    person {
+      fullName
+      addresses {
+        countryCode
+        houseNumber
+        location
+        postalCode
+        streetName
+      }
+    }
+  }
+}

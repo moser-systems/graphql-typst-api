@@ -1,0 +1,7 @@
+query Plain {
+  plain {
+    title
+    greeting
+    publisher
+  }
+}

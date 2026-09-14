@@ -1,0 +1,8 @@
+version: 1
+templates:
+  - name: same
+    template: ok.typ
+    query: ok.graphql
+  - name: same
+    template: ok.typ
+    query: ok.graphql

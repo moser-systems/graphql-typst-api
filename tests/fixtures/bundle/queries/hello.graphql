@@ -1,0 +1,10 @@
+query HelloById($id: ID!, $loud: Boolean = false) {
+  greetingById(id: $id, loud: $loud) {
+    id
+    title
+    body
+    nested {
+      replaced
+    }
+  }
+}

@@ -1,0 +1,147 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "graphql-typst"
+dynamic = ["version"]
+description = "Render Typst PDFs from GraphQL queries over HTTP"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "René Moser", email = "mail@renemoser.net" }]
+keywords = ["typst", "pdf", "graphql", "fastapi", "invoice"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Framework :: FastAPI",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Text Processing :: Markup",
+  "Typing :: Typed",
+]
+dependencies = [
+  "fastapi>=0.115",
+  "gql[aiohttp]>=4.0",
+  "graphql-core>=3.2.6",
+  "jmespath>=1.0",
+  "typst>=0.15,<0.16",
+  "pydantic>=2.9",
+  "pydantic-settings>=2.6",
+  "pyyaml>=6.0",
+  "anyio>=4.6",
+  "uvicorn[standard]>=0.32",
+]
+
+[project.optional-dependencies]
+metrics = ["prometheus-client>=0.21"]
+
+[project.scripts]
+graphql-typst = "graphql_typst.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/resmo/graphql-typst"
+Issues = "https://github.com/resmo/graphql-typst/issues"
+Changelog = "https://github.com/resmo/graphql-typst/blob/main/CHANGELOG.md"
+
+[dependency-groups]
+dev = [
+  "pytest>=8.3",
+  "pytest-asyncio>=0.24",
+  "pytest-cov>=6.0",
+  "httpx>=0.28",
+  "mypy>=1.13",
+  "ruff>=0.8",
+  "types-pyyaml>=6.0",
+  "pypdf>=5.1",
+]
+
+[tool.hatch.version]
+path = "src/graphql_typst/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/graphql_typst"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src",
+  "/tests",
+  "/examples",
+  "/README.md",
+  "/CHANGELOG.md",
+  "/LICENSE",
+  "/pyproject.toml",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+  "E", "F", "W", "I", "N", "UP", "B", "A", "C4", "T20", "SIM", "RET", "PTH",
+  "ARG", "ASYNC", "S", "RUF", "ANN", "TID", "ERA", "PL", "TRY", "EM", "G",
+]
+ignore = [
+  "ANN401",   # typed Any is unavoidable for JSON payloads
+  "PLR0913",  # constructors legitimately take several collaborators
+  "TRY003",   # long messages in raise are fine and more useful
+  "EM101",    # string literal in exception is readable
+  "EM102",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "ANN", "PLR2004", "ARG", "SLF001"]
+"src/graphql_typst/cli.py" = ["T201"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["graphql_typst"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unreachable = true
+disallow_any_explicit = false
+plugins = ["pydantic.mypy"]
+files = ["src", "tests"]
+
+[[tool.mypy.overrides]]
+module = ["jmespath.*", "typst.*"]
+ignore_missing_imports = true
+
+# Requiring `-> None` on every test function is noise that hides real findings.
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-q --strict-markers --strict-config --cov=graphql_typst --cov-report=term-missing --cov-report=xml --cov-fail-under=85"
+markers = ["slow: runs a real typst compile"]
+filterwarnings = [
+  "error",
+  "ignore::DeprecationWarning:gql.*",
+  "ignore::DeprecationWarning:graphql.*",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["src/graphql_typst"]
+
+[tool.coverage.report]
+exclude_also = [
+  "if TYPE_CHECKING:",
+  "raise NotImplementedError",
+  "\\.\\.\\.",
+]

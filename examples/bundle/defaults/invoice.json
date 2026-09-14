@@ -1,0 +1,32 @@
+{
+  "title": "Rechnung",
+  "description": "",
+  "external_reference": "",
+  "invoice_number": "",
+  "net_amount": 0.0,
+  "gross_amount": 0.0,
+  "vat_amount": 0.0,
+  "positions": [],
+  "payment_connection": {
+    "iban": "CH9300762011623852957"
+  },
+  "qr": {
+    "creditor_name": "Example AG",
+    "creditor_street": "Musterstrasse",
+    "creditor_building": "1",
+    "creditor_postal_code": "8000",
+    "creditor_city": "Zürich",
+    "creditor_country": "CH",
+    "currency": "CHF",
+    "amount": 0.0,
+    "reference_type": "NON",
+    "reference": "",
+    "additional_info": "",
+    "debtor_name": "",
+    "debtor_street": "",
+    "debtor_building": "",
+    "debtor_postal_code": "",
+    "debtor_city": "",
+    "debtor_country": "CH"
+  }
+}

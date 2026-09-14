@@ -1,0 +1,14 @@
+sender:
+  name: Example AG
+  address: Musterstrasse 1, CH-8000 Zürich, Switzerland
+  contact: +41 44 000 00 00 | info@example.com | www.example.com
+  return_line: Example AG, Musterstrasse 1, CH-8000 Zürich
+  place: Zürich
+annotation: ""
+recipient:
+  name: ""
+  street: ""
+  house_number: ""
+  postal_code: ""
+  city: ""
+  country: CH

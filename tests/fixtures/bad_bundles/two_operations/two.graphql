@@ -1,0 +1,2 @@
+query A { plain { title } }
+query B { plain { title } }

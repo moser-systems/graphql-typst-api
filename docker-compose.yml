@@ -1,0 +1,25 @@
+services:
+  api:
+    build: .
+    image: graphql-typst:dev
+    ports:
+      - "8000:8000"
+    environment:
+      # Point this at your GraphQL endpoint. Everything else has a usable default.
+      GRAPHQL_TYPST_GRAPHQL_URL: ${GRAPHQL_TYPST_GRAPHQL_URL:-http://host.docker.internal:8080/graphql}
+      GRAPHQL_TYPST_BUNDLE_DIR: /srv/bundle
+      GRAPHQL_TYPST_LOG_FORMAT: console
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      # Mounted rather than baked in, so template edits take effect on restart
+      # without a rebuild. Swap in your own bundle here.
+      - ./examples/bundle:/srv/bundle:ro
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true

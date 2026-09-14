@@ -44,9 +44,9 @@ metrics = ["prometheus-client>=0.21"]
 graphql-typst = "graphql_typst.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/resmo/graphql-typst"
-Issues = "https://github.com/resmo/graphql-typst/issues"
-Changelog = "https://github.com/resmo/graphql-typst/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/moser-systems/graphql-typst"
+Issues = "https://github.com/moser-systems/graphql-typst/issues"
+Changelog = "https://github.com/moser-systems/graphql-typst/blob/main/CHANGELOG.md"
 
 [dependency-groups]
 dev = [

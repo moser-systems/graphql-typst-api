@@ -1,0 +1,61 @@
+version: 2
+
+updates:
+  # Python dependencies, resolved through uv.lock.
+  - package-ecosystem: uv
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Zurich
+    open-pull-requests-limit: 5
+    labels: [dependencies, python]
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+    groups:
+      # Patch and minor are separate groups on purpose. fetch-metadata reports the
+      # *highest* semver change in a PR, so a group mixing the two would always
+      # report "minor" and never qualify for patch auto-merge.
+      python-patch:
+        patterns: ["*"]
+        update-types: [patch]
+      python-minor:
+        patterns: ["*"]
+        update-types: [minor]
+    ignore:
+      # typst wraps a compiler whose language evolves: a template that builds on
+      # one minor is not guaranteed to build on the next, so minors are reviewed
+      # deliberately rather than merged by bot. pyproject pins >=0.15,<0.16.
+      - dependency-name: typst
+        update-types: [version-update:semver-minor, version-update:semver-major]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Zurich
+    labels: [dependencies, ci]
+    commit-message:
+      prefix: "ci"
+    groups:
+      actions-patch:
+        patterns: ["*"]
+        update-types: [patch]
+      actions:
+        patterns: ["*"]
+        update-types: [minor, major]
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Zurich
+    labels: [dependencies, docker]
+    commit-message:
+      prefix: "docker"
